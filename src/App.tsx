@@ -1,9 +1,10 @@
 
-import { DatePicker } from 'antd';
+
 import './App.css'
+import { ProtableSandbox } from './Protable';
 
 const App = () => {
-  return <DatePicker />;
+  return <ProtableSandbox />;
 };
 
 export default App;

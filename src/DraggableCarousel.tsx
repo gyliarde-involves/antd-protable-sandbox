@@ -1,5 +1,6 @@
 import {  useRef, useState } from 'react';
 import './DraggableCarousel.css';
+import { Tag } from 'antd';
 
 
 export const  DraggableCarousel = () => {
@@ -40,12 +41,12 @@ export const  DraggableCarousel = () => {
 
   const handleMouseLeave = () => {
     setCursor("default");
+    setPressed(false);
   }
 
   const handleMouseUp = () => {
     setCursor("grab");
     setPressed(false);
-
   }
   const handleMouseMove = (e: React.MouseEvent) => {
     if (!pressed || !innerSliderRef.current) return;
@@ -67,9 +68,7 @@ export const  DraggableCarousel = () => {
        >
     <div className="inner-slider" ref={innerSliderRef}>
         {[...Array(7)].map((_, i) => (
-          <div key={i} className={`card ${i % 2 === 0 ? 'even' : 'odd'}`}>
-            {i}
-          </div>
+        <Tag>{i}</Tag>
         ))}
       </div>
     </div>

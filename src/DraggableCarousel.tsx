@@ -4,33 +4,33 @@ import './DraggableCarousel.css';
 
 export const  DraggableCarousel = () => {
 
-let sliderContainer = document.querySelector('.slider-container') as HTMLElement;
-let innerSlider = document.querySelector('.inner-slider') as HTMLElement;
-
-
+  const sliderRef = useRef<HTMLDivElement | null>(null);
+  const innerSliderRef = useRef<HTMLDivElement | null>(null);
   const startX = useRef<number>();
   const x = useRef<number>();
+
   const [cursor, setCursor ] = useState<string>("grab");
   const [pressed, setPressed] = useState<boolean>(false);
 
-  console.log('cursor', cursor);
-
   const checkBoundary = () => {
-    const outer = sliderContainer.getBoundingClientRect();
-    const inner = innerSlider.getBoundingClientRect();
+    if (!sliderRef.current || !innerSliderRef.current) return;
 
-    if (parseInt(innerSlider.style.left) > 0) {
-        innerSlider.style.left = "0px";
+    const outer = sliderRef.current.getBoundingClientRect();
+    const inner = innerSliderRef.current.getBoundingClientRect();
+
+    if (parseInt(innerSliderRef.current.style.left) > 0) {
+        innerSliderRef.current.style.left = "0px";
     }
 
     if (inner.right < outer.right) {
-        innerSlider.style.left = `-${inner.width - outer.width}px`;
+        innerSliderRef.current.style.left = `-${inner.width - outer.width}px`;
     }
    };
 
    const handleMouseDown = (e: React.MouseEvent) => {  
+    if (!innerSliderRef.current) return;
     setPressed(true);
-    startX.current = e.nativeEvent.offsetX - innerSlider.offsetLeft;
+    startX.current = e.nativeEvent.offsetX - innerSliderRef.current.offsetLeft;
     setCursor("grabbing");
   }
 
@@ -48,16 +48,16 @@ let innerSlider = document.querySelector('.inner-slider') as HTMLElement;
 
   }
   const handleMouseMove = (e: React.MouseEvent) => {
-    if (!pressed) return;
+    if (!pressed || !innerSliderRef.current) return;
     e.preventDefault();
     x.current = e.nativeEvent.offsetX;
-    innerSlider.style.left = `${(x.current ?? 0) - (startX.current ?? 0)}px`;
+    innerSliderRef.current.style.left = `${(x.current ?? 0) - (startX.current ?? 0)}px`;
     checkBoundary()
   }
 
 
   return (
-    <div className="slider-container" ref={(el) => { if (el) sliderContainer = el; }} 
+    <div className="slider-container" ref={sliderRef}   
        onMouseDown={ (e) => handleMouseDown(e)}
        onMouseEnter={() => handleMouseEnter()} 
        onMouseLeave={() => handleMouseLeave()}
@@ -65,7 +65,7 @@ let innerSlider = document.querySelector('.inner-slider') as HTMLElement;
        onMouseMove={(e) => handleMouseMove(e)}
        style={{ cursor: cursor }}
        >
-    <div className="inner-slider" ref={(el) => { if (el) innerSlider = el; }}>
+    <div className="inner-slider" ref={innerSliderRef}>
         {[...Array(7)].map((_, i) => (
           <div key={i} className={`card ${i % 2 === 0 ? 'even' : 'odd'}`}>
             {i}

@@ -1,4 +1,4 @@
-import {  useState } from 'react';
+import {  useRef, useState } from 'react';
 import './DraggableCarousel.css';
 
 
@@ -8,8 +8,8 @@ let sliderContainer = document.querySelector('.slider-container') as HTMLElement
 let innerSlider = document.querySelector('.inner-slider') as HTMLElement;
 
 
-  const [startX, setStartX] = useState<number>();
-  const [x, setX] = useState<number>();
+  const startX = useRef<number>();
+  const x = useRef<number>();
   const [cursor, setCursor ] = useState<string>("grab");
   const [pressed, setPressed] = useState<boolean>(false);
 
@@ -30,7 +30,7 @@ let innerSlider = document.querySelector('.inner-slider') as HTMLElement;
 
    const handleMouseDown = (e: React.MouseEvent) => {  
     setPressed(true);
-    setStartX(e.nativeEvent.offsetX - innerSlider.offsetLeft);
+    startX.current = e.nativeEvent.offsetX - innerSlider.offsetLeft;
     setCursor("grabbing");
   }
 
@@ -45,12 +45,13 @@ let innerSlider = document.querySelector('.inner-slider') as HTMLElement;
   const handleMouseUp = () => {
     setCursor("grab");
     setPressed(false);
+
   }
   const handleMouseMove = (e: React.MouseEvent) => {
     if (!pressed) return;
     e.preventDefault();
-    setX(e.nativeEvent.offsetX) 
-    innerSlider.style.left = `${(x ?? 0) - (startX ?? 0)}px`;
+    x.current = e.nativeEvent.offsetX;
+    innerSlider.style.left = `${(x.current ?? 0) - (startX.current ?? 0)}px`;
     checkBoundary()
   }
 

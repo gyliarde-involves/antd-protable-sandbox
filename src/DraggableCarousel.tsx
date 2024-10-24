@@ -1,16 +1,19 @@
-import { useRef } from 'react';
+import {  useState } from 'react';
 import './DraggableCarousel.css';
 
 
 export const  DraggableCarousel = () => {
 
-const sliderContainer = document.querySelector('.slider-container') as HTMLElement;
-const innerSlider = document.querySelector('.inner-slider') as HTMLElement;
+let sliderContainer = document.querySelector('.slider-container') as HTMLElement;
+let innerSlider = document.querySelector('.inner-slider') as HTMLElement;
 
-  const pressed = useRef<boolean>(false);
-  const startX = useRef<number>();
-  const x = useRef<number>();
 
+  const [startX, setStartX] = useState<number>();
+  const [x, setX] = useState<number>();
+  const [cursor, setCursor ] = useState<string>("grab");
+  const [pressed, setPressed] = useState<boolean>(false);
+
+  console.log('cursor', cursor);
 
   const checkBoundary = () => {
     const outer = sliderContainer.getBoundingClientRect();
@@ -25,41 +28,46 @@ const innerSlider = document.querySelector('.inner-slider') as HTMLElement;
     }
    };
 
-  if (sliderContainer) { 
-    sliderContainer.addEventListener('mousedown', (e) => {
-      pressed.current = true;
-      startX.current = e.offsetX - innerSlider.offsetLeft;
-      sliderContainer.style.cursor = "grabbing";
-     })
+   const handleMouseDown = (e: React.MouseEvent) => {  
+    setPressed(true);
+    setStartX(e.nativeEvent.offsetX - innerSlider.offsetLeft);
+    setCursor("grabbing");
+  }
 
-     sliderContainer.addEventListener("mouseenter", () => {
-        sliderContainer.style.cursor = "grab";
-    });
+  const handleMouseEnter = () => {
+    setCursor("grab");
+  }
 
-    sliderContainer.addEventListener("mouseleave", () => {
-        sliderContainer.style.cursor = "default";
-    });
+  const handleMouseLeave = () => {
+    setCursor("default");
+  }
 
-    sliderContainer.addEventListener("mouseup", () => {
-        sliderContainer.style.cursor = "grab";
-        pressed.current = false;
-    });
+  const handleMouseUp = () => {
+    setCursor("grab");
+    setPressed(false);
+  }
+  const handleMouseMove = (e: React.MouseEvent) => {
+    if (!pressed) return;
+    e.preventDefault();
+    setX(e.nativeEvent.offsetX) 
+    innerSlider.style.left = `${(x ?? 0) - (startX ?? 0)}px`;
+    checkBoundary()
+  }
 
-    sliderContainer.addEventListener("mousemove", (e) => {
-        if (!pressed) return;
-        e.preventDefault();
-        x.current = e.offsetX;
-        innerSlider.style.left = `${(x.current ?? 0) - (startX.current ?? 0)}px`;
-        checkBoundary()
-    });
-   }
 
   return (
-    <div className="slider-container">
-      <div className="inner-slider">
+    <div className="slider-container" ref={(el) => { if (el) sliderContainer = el; }} 
+       onMouseDown={ (e) => handleMouseDown(e)}
+       onMouseEnter={() => handleMouseEnter()} 
+       onMouseLeave={() => handleMouseLeave()}
+       onMouseUp={() => handleMouseUp()}
+       onMouseMove={(e) => handleMouseMove(e)}
+       style={{ cursor: cursor }}
+       >
+    <div className="inner-slider" ref={(el) => { if (el) innerSlider = el; }}>
         {[...Array(7)].map((_, i) => (
           <div key={i} className={`card ${i % 2 === 0 ? 'even' : 'odd'}`}>
-            {/* Card content */}
+            {i}
           </div>
         ))}
       </div>

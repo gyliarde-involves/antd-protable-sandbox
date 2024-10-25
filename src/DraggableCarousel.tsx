@@ -2,19 +2,11 @@ import {  useRef, useState } from 'react';
 import './DraggableCarousel.css';
 import { Tag } from 'antd';
 
+export interface DraggableCarouselProps {
+  items: string[];
+}
 
-export const  DraggableCarousel = () => {
-
-   const value = [
-    'Ativo',
-    'Inativo',
-    'Aprovado',
-    'Ignorado automaticamente',
-    'Ignorado',
-    'Novo',
-    'Processado',
-    'Revisado'
-   ]
+export const  DraggableCarousel = ( { items } : DraggableCarouselProps) => {
 
   const sliderRef = useRef<HTMLDivElement | null>(null);
   const innerSliderRef = useRef<HTMLDivElement | null>(null);
@@ -76,7 +68,7 @@ export const  DraggableCarousel = () => {
        style={{ cursor: cursor }}
        >
     <div className="inner-slider" ref={innerSliderRef}>
-      {value.map((item) => (
+      {items.map((item) => (
           <Tag color="blue">{item}</Tag>
       ))}
       </div>

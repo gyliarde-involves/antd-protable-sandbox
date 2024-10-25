@@ -1,7 +1,7 @@
 
 
 import './App.css'
-import { ProtableSandbox } from './Protable';
+import { ProtableSandbox } from './components/Protable';
 const App = () => {
   return <ProtableSandbox />;
 };

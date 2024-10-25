@@ -31,27 +31,27 @@ const valueEnum = {
   
   const columns: ProColumns<TableListItem>[] = [
     {
-      title: '标题',
+      title: 'Title',
       dataIndex: 'name',
       key: 'name',
     },
     {
-      title: '状态',
+      title: 'Title',
       dataIndex: 'status',
       initialValue: 'all',
       filters: true,
       onFilter: true,
       valueType: 'select',
       valueEnum: {
-        all: { text: '全部', status: 'Default' },
-        close: { text: '关闭', status: 'Default' },
-        running: { text: '运行中', status: 'Processing' },
-        online: { text: '已上线', status: 'Success' },
-        error: { text: '异常', status: 'Error' },
+        all: { text: 'All', status: 'Default' },
+        close: { text: 'Closed', status: 'Default' },
+        running: { text: 'Running', status: 'Processing' },
+        online: { text: 'Online', status: 'Success' },
+        error: { text: 'Exception', status: 'Error' },
       },
     },
     {
-      title: '更新时间',
+      title: 'Update Time',
       key: 'since2',
       dataIndex: 'createdAt',
       valueType: 'date',
@@ -59,11 +59,11 @@ const valueEnum = {
     },
   
     {
-      title: '操作',
+      title: 'Title',
       key: 'option',
       width: 120,
       valueType: 'option',
-      render: () => [<a key="1">操作</a>, <a key="2">删除</a>],
+      render: () => [<a key="1">Operation</a>, <a key="2">Delete</a>],
     },
   ];
 

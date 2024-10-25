@@ -4,12 +4,10 @@
   height: 50px;
   transform: translate(-50%, -50%);
   overflow: hidden;
-  background-color:brown;
 }
 .inner-slider {
   width: 150%;
   display: flex;
-  gap: 10px;
   pointer-events: none;
   position: absolute;
   top: 0;

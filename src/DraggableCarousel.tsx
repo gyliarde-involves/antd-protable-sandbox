@@ -5,10 +5,20 @@ import { Tag } from 'antd';
 
 export const  DraggableCarousel = () => {
 
+   const value = [
+    'Ativo',
+    'Inativo',
+    'Aprovado',
+    'Ignorado automaticamente',
+    'Ignorado',
+    'Novo',
+    'Processado',
+    'Revisado'
+   ]
+
   const sliderRef = useRef<HTMLDivElement | null>(null);
   const innerSliderRef = useRef<HTMLDivElement | null>(null);
   const startX = useRef<number>();
-  const x = useRef<number>();
 
   const [cursor, setCursor ] = useState<string>("grab");
   const [pressed, setPressed] = useState<boolean>(false);
@@ -51,8 +61,7 @@ export const  DraggableCarousel = () => {
   const handleMouseMove = (e: React.MouseEvent) => {
     if (!pressed || !innerSliderRef.current) return;
     e.preventDefault();
-    x.current = e.nativeEvent.offsetX;
-    innerSliderRef.current.style.left = `${(x.current ?? 0) - (startX.current ?? 0)}px`;
+    innerSliderRef.current.style.left = `${(e.nativeEvent.offsetX ?? 0) - (startX.current ?? 0)}px`;
     checkBoundary()
   }
 
@@ -67,9 +76,9 @@ export const  DraggableCarousel = () => {
        style={{ cursor: cursor }}
        >
     <div className="inner-slider" ref={innerSliderRef}>
-        {[...Array(7)].map((_, i) => (
-        <Tag>{i}</Tag>
-        ))}
+      {value.map((item) => (
+          <Tag color="blue">{item}</Tag>
+      ))}
       </div>
     </div>
   );

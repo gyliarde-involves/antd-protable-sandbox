@@ -1,4 +1,6 @@
 import { ColumnsState, ProColumns, ProTable } from "@ant-design/pro-components";
+import { Flex } from "antd";
+import { Tag } from "antd/lib";
 import { useState } from "react";
 
 const valueEnum = {
@@ -7,6 +9,15 @@ const valueEnum = {
     2: 'online',
     3: 'error',
   };
+
+  export enum ProjectJobStatus {
+    APPROVED = 'APPROVED',
+    AUTO_IGNORED = 'AUTO_IGNORED',
+    IGNORED = 'IGNORED',
+    NEW = 'NEW',
+    PROCESSED = 'PROCESSED',
+    REVIEWED = 'REVIEWED',
+}
   
   export type TableListItem = {
     key: number;
@@ -15,6 +26,7 @@ const valueEnum = {
     updatedAt: number;
     createdAt: number;
     money: number;
+    statusJob: ProjectJobStatus[];
   };
   const tableListDataSource: TableListItem[] = [];
   
@@ -26,6 +38,7 @@ const valueEnum = {
       updatedAt: Date.now() - Math.floor(Math.random() * 1000),
       createdAt: Date.now() - Math.floor(Math.random() * 2000),
       money: Math.floor(Math.random() * 2000) * i,
+      statusJob: [ProjectJobStatus.APPROVED, ProjectJobStatus.AUTO_IGNORED, ProjectJobStatus.IGNORED, ProjectJobStatus.NEW, ProjectJobStatus.PROCESSED, ProjectJobStatus.REVIEWED],
     });
   }
   
@@ -49,6 +62,21 @@ const valueEnum = {
         online: { text: 'Online', status: 'Success' },
         error: { text: 'Exception', status: 'Error' },
       },
+    },
+    {
+      title: 'Status do Jobs',
+      dataIndex: 'statusJob',
+      key: 'statusJob',
+      filters: true,
+      onFilter: true,
+      valueEnum: ProjectJobStatus,
+      render: (_, {statusJob } ) => (
+        <Flex>
+          {statusJob.map((item) => (
+            <Tag key={item}>{item}</Tag>
+          ))}
+        </Flex>
+      ),
     },
     {
       title: 'Update Time',

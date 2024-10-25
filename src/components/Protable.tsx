@@ -1,6 +1,7 @@
 import { ColumnsState, ProColumns, ProTable } from "@ant-design/pro-components";
 import { useState } from "react";
 import { DraggableCarousel } from "./DraggableCarousel";
+import { MultiTag } from "./MultiTag";
 
 const valueEnum = {
     0: 'close',
@@ -71,8 +72,20 @@ const ProjectTerms = {
         error: { text: 'Exception', status: 'Error' },
       },
     },
+    // {
+    //   title: 'Drag - Status do Jobs',
+    //   dataIndex: 'statusJob',
+    //   key: 'statusJob',
+    //   filters: true,
+    //   onFilter: true,
+    //   valueEnum: ProjectJobStatus,
+    //   render: (_, {statusJob } ) => { 
+    //    const terms = statusJob.map((status) => ProjectTerms[status]);
+    //    return <DraggableCarousel items={terms} />
+    //   },
+    // },
     {
-      title: 'Status do Jobs',
+      title: 'Badge - Status do Jobs',
       dataIndex: 'statusJob',
       key: 'statusJob',
       filters: true,
@@ -80,8 +93,9 @@ const ProjectTerms = {
       valueEnum: ProjectJobStatus,
       render: (_, {statusJob } ) => { 
        const terms = statusJob.map((status) => ProjectTerms[status]);
-       return <DraggableCarousel items={terms} />
+       return <MultiTag tags={terms} tagDisplay={1} title="Status do Jobs" />
       },
+      align: 'center',
     },
     {
       title: 'Update Time',
@@ -139,7 +153,7 @@ const ProjectTerms = {
         }}
         search={false}
         dateFormatter="string"
-        headerTitle="T"
+        headerTitle="Protable Sand Box"
       />
     );
   };

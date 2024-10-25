@@ -17,6 +17,15 @@ const valueEnum = {
     PROCESSED = 'PROCESSED',
     REVIEWED = 'REVIEWED',
 }
+
+const ProjectTerms = {
+  [ProjectJobStatus.APPROVED]: 'Aprovado',
+  [ProjectJobStatus.AUTO_IGNORED]: 'Ignorado automaticamente',
+  [ProjectJobStatus.IGNORED]: 'Ignorado',
+  [ProjectJobStatus.NEW]: 'Novo',
+  [ProjectJobStatus.PROCESSED]: 'Processado',
+  [ProjectJobStatus.REVIEWED]: 'Revisado',
+}
   
   export type TableListItem = {
     key: number;
@@ -69,9 +78,10 @@ const valueEnum = {
       filters: true,
       onFilter: true,
       valueEnum: ProjectJobStatus,
-      render: (_, {statusJob } ) => ( 
-       <DraggableCarousel items={statusJob} />
-      ),
+      render: (_, {statusJob } ) => { 
+       const terms = statusJob.map((status) => ProjectTerms[status]);
+       return <DraggableCarousel items={terms} />
+      },
     },
     {
       title: 'Update Time',

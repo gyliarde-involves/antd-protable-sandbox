@@ -60,7 +60,7 @@ export const  DraggableCarousel = ( { items } : DraggableCarouselProps) => {
 
 
   return (
-    <Tooltip title="Drag to see more" placement="top" > 
+    <Tooltip title={items.join(', ')} placement="bottom" > 
       <div className="slider-container" ref={sliderRef}   
         onMouseDown={ (e) => handleMouseDown(e)}
         onMouseEnter={() => handleMouseEnter()} 

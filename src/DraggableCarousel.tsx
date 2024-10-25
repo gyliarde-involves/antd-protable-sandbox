@@ -1,6 +1,7 @@
 import {  useRef, useState } from 'react';
 import './DraggableCarousel.css';
 import { Tag } from 'antd';
+import { Tooltip } from 'antd/lib';
 
 export interface DraggableCarouselProps {
   items: string[];
@@ -59,20 +60,22 @@ export const  DraggableCarousel = ( { items } : DraggableCarouselProps) => {
 
 
   return (
-    <div className="slider-container" ref={sliderRef}   
-       onMouseDown={ (e) => handleMouseDown(e)}
-       onMouseEnter={() => handleMouseEnter()} 
-       onMouseLeave={() => handleMouseLeave()}
-       onMouseUp={() => handleMouseUp()}
-       onMouseMove={(e) => handleMouseMove(e)}
-       style={{ cursor: cursor }}
-       >
-    <div className="inner-slider" ref={innerSliderRef}>
-      {items.map((item) => (
-          <Tag color="blue">{item}</Tag>
-      ))}
+    <Tooltip title="Drag to see more" placement="top" > 
+      <div className="slider-container" ref={sliderRef}   
+        onMouseDown={ (e) => handleMouseDown(e)}
+        onMouseEnter={() => handleMouseEnter()} 
+        onMouseLeave={() => handleMouseLeave()}
+        onMouseUp={() => handleMouseUp()}
+        onMouseMove={(e) => handleMouseMove(e)}
+        style={{ cursor: cursor }}
+        > 
+          <div className="inner-slider" ref={innerSliderRef}>
+          {items.map((item) => (
+              <Tag color="blue">{item}</Tag>
+          ))}
+          </div>
       </div>
-    </div>
+    </ Tooltip>  
   );
 }
 

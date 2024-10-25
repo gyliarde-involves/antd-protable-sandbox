@@ -1,7 +1,6 @@
 import { ColumnsState, ProColumns, ProTable } from "@ant-design/pro-components";
-import { Flex } from "antd";
-import { Tag } from "antd/lib";
 import { useState } from "react";
+import { DraggableCarousel } from "./DraggableCarousel";
 
 const valueEnum = {
     0: 'close',
@@ -70,12 +69,8 @@ const valueEnum = {
       filters: true,
       onFilter: true,
       valueEnum: ProjectJobStatus,
-      render: (_, {statusJob } ) => (
-        <Flex>
-          {statusJob.map((item) => (
-            <Tag key={item}>{item}</Tag>
-          ))}
-        </Flex>
+      render: (_, {statusJob } ) => ( 
+       <DraggableCarousel items={statusJob} />
       ),
     },
     {
